@@ -4,7 +4,7 @@ readonly title_name="$(basename "$1" | sed 's/\.[^.]*$//')"
 readonly crop_file="_crops/${title_name}.txt"
 
 # Run crop detection and save output to file
-# Crop option is currently disabled in transcode operations
+# Crop option is currently not used in transcode operations
 
 detect-crop.sh $1 > $crop_file
 
@@ -28,6 +28,7 @@ else
 fi
 
 # Detect subtitles
+# Subtitles are not currently added automatically
 
 subtitle_streams=“ffmpeg -i $1 2>&1 | grep -c Subtitles:”
 
