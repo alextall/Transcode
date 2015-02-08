@@ -3,10 +3,10 @@
 readonly title_name="$(basename "$1" | sed 's/\.[^.]*$//')"
 readonly crop_file="_crops/${title_name}.txt"
 
-# Run crop detection and save output to file
+## Run crop detection and save output to file
 # Crop option is currently not used in transcode operations
 
-detect-crop.sh $1 > $crop_file
+# detect-crop.sh $1 > $crop_file
 
 if [ -f "$crop_file" ]; then
 	crop_option="--crop $(cat "$crop_file")"
@@ -14,11 +14,11 @@ else
 	crop_option=''
 fi
 
-# Detect audio streams
+## Detect audio streams
 
-audio_streams=“ffmpeg -i $1 2>&1 | grep -c Audio:”
+audio_streams=`ffmpeg -i $1 2>&1 | grep -c Audio:`
 
-if [ $audio_streams > 1 ]
+if [ "$audio_streams" -gt 1 ]
   then
 	for i in `seq 1 $audio_streams`; do
 	  audio_option="$audio_option --add-audio $i"
@@ -27,12 +27,12 @@ else
   audio_option=''
 fi
 
-# Detect subtitles
+## Detect subtitles
 # Subtitles are not currently added automatically
 
-subtitle_streams=“ffmpeg -i $1 2>&1 | grep -c Subtitles:”
+subtitle_streams=`ffmpeg -i $1 2>&1 | grep -c Subtitle:`
 
-if [ $subtitle_streams > 0 ]
+if [ "$subtitle_streams" -gt 0 ]
   then
 	for i in `seq 1 $subtitle_streams`; do
 	  subtitle_option="$subtitle_option --add-subtitle $i"
@@ -41,13 +41,13 @@ else
   subtitle_option=''
 fi
 
-# Begin transcode operation
+## Begin transcode operation
 
-transcode-video.sh --allow-ac3 $audio_option $1
+transcode-video.sh --allow-ac3 $audo_option $subtitle_option $1
 
-# CLEAN UP
+## CLEAN UP
 
-# Move source file
+## Move source file
 
 if [ ! -d "_originals/$title_name" ]
   then
@@ -55,10 +55,10 @@ if [ ! -d "_originals/$title_name" ]
 fi
 mv $1 "_originals/$title_name/"
 
-# Move log file
+## Move log file
 
 if [ ! -d "_logs/$title_name" ]
   then
-	mkdir "_logs/$title_name"
-fi
+ 	mkdir "_logs/$title_name"
+ fi
 mv "$title_name.mp4.log" "_logs/$title_name/"
