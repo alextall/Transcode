@@ -30,7 +30,7 @@ fi
 ## Detect subtitles
 # Subtitles are not currently added automatically
 
-subtitle_streams=`ffmpeg -i $1 2>&1 | grep -c Subtitle:`
+subtitle_streams=`ffmpeg -i $1 2>&1 | grep -v pgs | grep -c Subtitle:`
 
 if [ "$subtitle_streams" -gt 0 ]
   then
