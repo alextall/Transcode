@@ -62,3 +62,11 @@ if [ ! -d "_logs/$base_name" ]
  	mkdir "_logs/$base_name"
  fi
 mv "$title_name.mp4.log" "_logs/$base_name/"
+
+## Move final video file
+
+if [ ! -d "_finals/$base_name" ]
+	then
+	  mkdir "_finals/$base_name"
+fi
+mv "$title_name.mp4" "_finals/$base_name/"
