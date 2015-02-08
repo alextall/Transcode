@@ -2,6 +2,7 @@
 
 readonly title_name="$(basename "$1" | sed 's/\.[^.]*$//')"
 readonly crop_file="_crops/${title_name}.txt"
+readonly base_name=`echo $title_name | sed 's/_[^_]*$//'`
 
 ## Run crop detection and save output to file
 # Crop option is currently not used in transcode operations
@@ -21,10 +22,10 @@ audio_streams=`ffmpeg -i $1 2>&1 | grep -c Audio:`
 if [ "$audio_streams" -gt 1 ]
   then
 	for i in `seq 1 $audio_streams`; do
-	  audio_option="$audio_option --add-audio $i"
+	  audio_options="$audio_options --add-audio $i"
   done
 else
-  audio_option=''
+  audio_options=''
 fi
 
 ## Detect subtitles
@@ -35,30 +36,30 @@ subtitle_streams=`ffmpeg -i $1 2>&1 | grep -v pgs | grep -c Subtitle:`
 if [ "$subtitle_streams" -gt 0 ]
   then
 	for i in `seq 1 $subtitle_streams`; do
-	  subtitle_option="$subtitle_option --add-subtitle $i"
+	  subtitle_options="$subtitle_options --add-subtitle $i"
   done
 else
-  subtitle_option=''
+  subtitle_options=''
 fi
 
 ## Begin transcode operation
 
-transcode-video.sh --allow-ac3 $audo_option $subtitle_option $1
+transcode-video.sh --allow-ac3 $audo_options $subtitle_options $1
 
 ## CLEAN UP
 
 ## Move source file
 
-if [ ! -d "_originals/$title_name" ]
+if [ ! -d "_originals/$base_name" ]
   then
-	mkdir "_originals/$title_name"
+	mkdir "_originals/$base_name"
 fi
-mv $1 "_originals/$title_name/"
+mv $1 "_originals/$base_name/"
 
 ## Move log file
 
-if [ ! -d "_logs/$title_name" ]
+if [ ! -d "_logs/$base_name" ]
   then
- 	mkdir "_logs/$title_name"
+ 	mkdir "_logs/$base_name"
  fi
-mv "$title_name.mp4.log" "_logs/$title_name/"
+mv "$title_name.mp4.log" "_logs/$base_name/"
