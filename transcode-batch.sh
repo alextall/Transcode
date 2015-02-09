@@ -7,7 +7,7 @@
 
 about() {
 	cat <<EOF
-$program 0.9 of February 8, 2015
+$program 1.0 of February 8, 2015
 Copyright (c) 2015 Alex Du Bois
 EOF
 	exit 0
@@ -78,7 +78,7 @@ if [ ! -e "$input" ]; then
 fi
 
 ## Run crop detection and save output to file
-# Crop option is currently not used in transcode operations
+#
 if [ ! -d $crop_dir ]; then
 	mkdir $crop_dir
 fi
@@ -117,7 +117,7 @@ fi
 
 # Begin transcode operation
 #
-transcode-video.sh --allow-ac3 $audio_options $subtitle_options $crop_option $input
+transcode-video.sh --allow-ac3 $audio_options $crop_option $input
 
 # Clean up source and generated files
 #

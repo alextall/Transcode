@@ -2,6 +2,8 @@
 
 This shell script leverages Don Melton's transcode-video scripts, adds my own custom settings, and performs batch management.
 
+Video transcoding takes a long time, especially if you are transcoding several files. I highly recommend doing this on a dedicated computer, over night, or at another time when you won't need to use your computer.
+
 ## Dependencies
 
 I designed this script to be used with [Hazel](http://www.noodlesoft.com/hazel) for queue management and [transcode-video](https://www.github.com/donmelton/transcode-video) to manage [Handbrake](http://www.handbrake.fr) for the transcoding operation.
