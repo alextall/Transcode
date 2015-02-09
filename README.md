@@ -12,6 +12,7 @@ Be sure to install Hazel according to Noodlesoft's instructions. I recommend ins
 
 Pick a work folder and create 4 folders inside called "_crops", "_finals", "_logs", and "_originals".
 Set up Hazel to watch the work folder and create a rule  with the following criteria:
+
 	If ALL of the following conditions are met EXTENSION IS ".mkv"
 	Do the following to the matched file or folder:
 	RUN SHELL SCRIPT EMBEDDED SCRIPT
