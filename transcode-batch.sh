@@ -83,10 +83,10 @@ if [ ! -d $crop_dir ]; then
 	mkdir $crop_dir
 fi
 
-detect-crop.sh $input > $crop_file
+detect-crop.sh $1 &> $crop_file
 
-if [ -f "$crop_file" ]; then
-	crop_option="--crop $(cat "$crop_file")"
+if [[ -f "$crop_file" ]] && [[ `grep identical $crop_file` ]]; then
+	crop_option="--crop `grep transcode-video $crop_file | egrep -o [0-9]+:[0-9]+:[0-9]+:[0-9]+`"
 else
 	crop_option=''
 fi
@@ -95,10 +95,9 @@ fi
 #
 audio_streams=`ffmpeg -i $input 2>&1 | grep -c Audio:`
 
-if [ "$audio_streams" -gt 1 ]
-  then
-	for i in `seq 1 $audio_streams`; do
-	  audio_options="$audio_options --add-audio $i"
+if [ "$audio_streams" -gt 1 ]; then
+  for i in `seq 1 $audio_streams`; do
+	audio_options="$audio_options --add-audio $i"
   done
 else
   audio_options=''
@@ -108,10 +107,9 @@ fi
 #
 subtitle_streams=`ffmpeg -i $input 2>&1 | grep -v pgs | grep -c Subtitle:`
 
-if [ "$subtitle_streams" -gt 0 ]
-  then
-	for i in `seq 1 $subtitle_streams`; do
-	  subtitle_options="$subtitle_options --add-subtitle $i"
+if [ "$subtitle_streams" -gt 0 ]; then
+  for i in `seq 1 $subtitle_streams`; do
+	subtitle_options="$subtitle_options --add-subtitle $i"
   done
 else
   subtitle_options=''
@@ -119,24 +117,21 @@ fi
 
 # Begin transcode operation
 #
-transcode-video.sh --allow-ac3 $audio_options $subtitle_options $input
+transcode-video.sh --allow-ac3 $audio_options $subtitle_options $crop_option $input
 
 # Clean up source and generated files
 #
-if [ ! -d "$originals_dir" ]
-  then
-	mkdir "$originals_dir"
+if [ ! -d "$originals_dir" ]; then
+  mkdir "$originals_dir"
 fi
 mv $input "$originals_dir"
 
-if [ ! -d "$logs_dir" ]
-  then
- 	mkdir "$logs_dir"
- fi
+if [ ! -d "$logs_dir" ]; then
+  mkdir "$logs_dir"
+fi
 mv "$title_name.mp4.log" "$logs_dir"
 
-if [ ! -d "$finals_dir" ]
-	then
-	  mkdir "$finals_dir"
+if [ ! -d "$finals_dir" ]; then
+  mkdir "$finals_dir"
 fi
 mv "$title_name.mp4" "$finals_dir"
