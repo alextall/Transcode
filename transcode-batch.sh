@@ -83,6 +83,24 @@ audio_options=''
 subtitle_options=''
 logging_options='--quiet'
 
+function enableLogging() {
+  logging_options='--verbose'
+}
+
+function setupWorkingDirectory() {
+  if [ ! -d "_originals" ]; then
+    mkdir "_originals"
+  fi
+
+  if [ ! -d "_logs" ]; then
+    mkdir "_logs"
+  fi
+
+  if [ ! -d "_finals" ]; then
+    mkdir "_finals"
+  fi
+}
+
 function setCroppingOptions() {
   if [ ! -d "_crops" ]; then
     mkdir "_crops"
@@ -125,6 +143,30 @@ function setSubtitleOptions() {
   else
     subtitle_options=''
   fi
+}
+
+function setupVideoDirectories() {
+  setupWorkingDirectory
+
+  if [ ! -d "$originals_dir" ]; then
+    mkdir "$originals_dir"
+  fi
+
+  if [ ! -d "$logs_dir" ]; then
+    mkdir "$logs_dir"
+  fi
+
+  if [ ! -d "$finals_dir" ]; then
+    mkdir "$finals_dir"
+  fi
+}
+
+function cleanup() {
+  setupVideoDirectories
+
+  mv "$input" "$originals_dir"
+  mv "$title_name.mp4.log" "$logs_dir"
+  mv "$title_name.mp4" "$finals_dir"
 }
 
 if [ -f "$input" ]; then
