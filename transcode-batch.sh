@@ -1,40 +1,37 @@
 #!/bin/bash
 #
-# transcode-batch.sh
+# This script will accept video files as input and use Don Melton's
+# video transcoding scripts to control Handbrake in order to produce
+# portable video files.
 #
-# Copyright (c) 2015 Alex Du Bois
-#
+
+readonly program="$(basename "$0")"
 
 about() {
 	cat <<EOF
-$program 1.0 of February 8, 2015
-Copyright (c) 2015 Alex Du Bois
+$program 1.2 of February 13, 2016
+Copyright (c) 2016 Alex Du Bois
 EOF
 	exit 0
 }
 
-usage_prologue(){
+usage(){
 	cat <<EOF
-Batch transcode video files using transcode-video.sh. Works best with Blu-ray or DVD rips.
+Transcode video files. Works best with Blu-ray or DVD rips.
 
-Transcode-video.sh automatically determines target video bitrate, number of audio tracks, etc. WITHOUT ANY command line options.
+Transcode.sh automatically determines target video bitrate, number of audio tracks, etc. WITHOUT ANY command line options.
 
-It is recommended to use Hazel to provide automated queue management and trigger transcode-batch.sh.
+It is recommended to use Hazel to provide automated queue management and trigger transcode.sh.
 
-Usage: $program [OPTION]... [FILE|DIRECTORY]
+Usage: $program [FILE]
 
-	--help          display basic options and exit
+  --help          display basic options and exit
+  --version       display program version and exit
+
+Requires "video_transcoding", "HandBrakeCLI", "mp4track", "mplayer" and "mkvpropedit".
 EOF
+  exit 0
 }
-
-usage() {
-	usage_prologue
-	cat <<EOF
-EOF
-	exit 0
-}
-
-readonly program="$(basename "$0")"
 
 # OPTIONS
 #
