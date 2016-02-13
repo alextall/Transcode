@@ -55,12 +55,12 @@ die() {
 	exit ${2:-1}
 }
 
-if [ ! "$input" ]; then
+if [ ! "$1" ]; then
 	syntax_error 'too few arguments'
 fi
 
-if [ ! -e "$input" ]; then
-	die "input not found: $input"
+if [ ! -e "$1" ]; then
+	die "file not found: $input"
 fi
 
 # Set global variables
