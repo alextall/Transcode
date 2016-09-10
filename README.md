@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/alextall/Transcode.png?label=ready&title=Ready)](https://waffle.io/alextall/Transcode)
 # Transcode
 
 This shell script leverages Don Melton's [video_transcoding](http://github.com/donmelton/video_transcoding) scripts and adds my own custom settings.
