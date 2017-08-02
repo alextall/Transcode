@@ -33,17 +33,6 @@ EOF
   exit 0
 }
 
-# OPTIONS
-#
-case $1 in
-	--help)
-		usage
-		;;
-	--version)
-		about
-		;;
-esac
-
 syntax_error() {
 	echo "$program: $1" >&2
 	echo "Try \`$program --help\` for more information." >&2
@@ -54,6 +43,29 @@ die() {
 	echo "$program: $1" >&2
 	exit ${2:-1}
 }
+
+test_dependencies() {
+  if [ `brew leaves | grep handbrake | wc -l` -lt 1 ]; then
+    die "Handbrake is not installed. Please install and try again."
+  fi
+
+  if [ `gem list --quiet video_transcoding | grep video_transcoding | wc -l` -lt 1 ]; then
+    die "video_transcoding is not installed. Please install and try again."
+  fi
+}
+
+test_dependencies
+
+# OPTIONS
+#
+case $1 in
+	--help)
+		usage
+		;;
+	--version)
+		about
+		;;
+esac
 
 if [ ! "$1" ]; then
 	syntax_error 'too few arguments'
@@ -145,24 +157,8 @@ function setSubtitleOptions() {
   fi
 }
 
-function setupVideoDirectories() {
-  setupWorkingDirectory
-
-  if [ ! -d "$originals_dir" ]; then
-    mkdir "$originals_dir"
-  fi
-
-  if [ ! -d "$logs_dir" ]; then
-    mkdir "$logs_dir"
-  fi
-
-  if [ ! -d "$finals_dir" ]; then
-    mkdir "$finals_dir"
-  fi
-}
-
 function cleanup() {
-  setupVideoDirectories
+  setupWorkingDirectory
 
   mv "$input" "$originals_dir"
   mv "$title_name.mp4.log" "$logs_dir"
