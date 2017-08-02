@@ -173,7 +173,7 @@ if [ -f "$input" ]; then
   setCroppingOptions
   setVideoOptions
   setAudioOptions
-  setSubtitleOptions
+  # setSubtitleOptions
 
   transcode-video --mp4 $crop_options $video_options $audio_options $subtitle_options $logging_options "$input"
 
