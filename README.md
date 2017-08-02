@@ -6,11 +6,11 @@ Video transcoding takes a long time, especially if you are transcoding several f
 
 ## Dependencies
 
-I designed this script to be used with [Hazel](http://www.noodlesoft.com/hazel) for queue management and [transcode-video](https://www.github.com/donmelton/transcode-video) to manage [Handbrake](http://www.handbrake.fr) for the transcoding operation.
+I designed this script to be used with [Hazel](http://www.noodlesoft.com/hazel) for queue management and [video_transcoding](https://www.github.com/donmelton/video_transcoding) to manage [Handbrake](http://www.handbrake.fr) for the transcoding operation.
 
 ## Setup
 
-Be sure to install Hazel according to Noodlesoft's instructions. I recommend installing transcode-video.sh and HandbrakeCLI using Homebrew Cask. Check out [Homebrew](http://www.brew.sh) and [Homebrew Cask](http://www.caskroom.io) to get set up.
+Be sure to install Hazel according to Noodlesoft's instructions. I recommend installing video_transcoding.sh and HandbrakeCLI using Homebrew Cask. Check out [Homebrew](http://www.brew.sh) and [Homebrew Cask](http://www.caskroom.io) to get set up.
 
 Pick a work folder and place your files to transcode inside.
 Set up Hazel to watch the work folder and create a rule  with the following criteria:
