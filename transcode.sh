@@ -94,9 +94,14 @@ video_options=''
 audio_options=''
 subtitle_options=''
 logging_options='--quiet'
+use_h265=''
 
 function enableLogging() {
   logging_options='--verbose'
+}
+
+function enableH265() {
+  use_h265='--handbrake-option encoder=x265'
 }
 
 function setupWorkingDirectory() {
@@ -165,13 +170,36 @@ function cleanup() {
   mv "$title_name.mp4" "$finals_dir"
 }
 
+# Process Options
+#
+while [ "$1" ]; do
+  case $1 in
+    --help)
+      usage
+      ;;
+    --version)
+      about
+      ;;
+    --h265)
+      enableH265
+      ;;
+    -*)
+      syntax_error "unrecognized option: $1"
+      ;;
+    *)
+      break
+      ;;
+  esac
+  shift
+done
+
 if [ -f "$input" ]; then
   setCroppingOptions
   setVideoOptions
   setAudioOptions
   # setSubtitleOptions
 
-  transcode-video --mp4 $crop_options $video_options $audio_options $subtitle_options $logging_options "$input"
+  transcode-video --mp4 $crop_options $video_options $audio_options $subtitle_options $logging_options $use_h265 "$input"
 
   cleanup
 else
