@@ -117,6 +117,10 @@ function setCroppingOptions() {
 
 function setVideoOptions() {
   video_options="--max-width 1920 --max-height 1080"
+
+  if [ `echo "$media_info" | egrep "x480" | wc -l` -gt 0 ]; then
+    video_options="$video_options --force-rate 23.976 --filter detelecine"
+  fi
 }
 
 function setAudioOptions() {
