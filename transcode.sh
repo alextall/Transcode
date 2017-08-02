@@ -124,8 +124,8 @@ function setVideoOptions() {
 }
 
 function setAudioOptions() {
-  if [ `echo "$media_info" | egrep "(\d\.\d ch)" | wc -l` -gt 10 ]; then
-    audio_options="--add-audio language=eng"
+  if [ `echo "$media_info" | egrep "(\d\.\d ch)" | wc -l` -gt 1 ]; then
+    audio_options="--main-audio eng"
   else
     audio_options="--add-audio all"
   fi
