@@ -157,24 +157,8 @@ function setSubtitleOptions() {
   fi
 }
 
-function setupVideoDirectories() {
-  setupWorkingDirectory
-
-  if [ ! -d "$originals_dir" ]; then
-    mkdir "$originals_dir"
-  fi
-
-  if [ ! -d "$logs_dir" ]; then
-    mkdir "$logs_dir"
-  fi
-
-  if [ ! -d "$finals_dir" ]; then
-    mkdir "$finals_dir"
-  fi
-}
-
 function cleanup() {
-  setupVideoDirectories
+  setupWorkingDirectory
 
   mv "$input" "$originals_dir"
   mv "$title_name.mp4.log" "$logs_dir"
