@@ -9,8 +9,8 @@ readonly program="$(basename "$0")"
 
 about() {
 	cat <<EOF
-$program 1.2 of February 13, 2016
-Copyright (c) 2016 Alex Du Bois
+$program 1.3 of August 2, 2017
+Copyright (c) 2017 Alex Du Bois
 EOF
 	exit 0
 }
