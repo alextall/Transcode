@@ -56,17 +56,6 @@ test_dependencies() {
 
 test_dependencies
 
-# OPTIONS
-#
-case $1 in
-	--help)
-		usage
-		;;
-	--version)
-		about
-		;;
-esac
-
 if [ ! "$1" ]; then
 	syntax_error 'too few arguments'
 fi
