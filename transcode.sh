@@ -69,12 +69,12 @@ PATH="/usr/local/bin:$PATH"
 readonly input="$1"
 readonly work_dir=`dirname "$input"`
 readonly title_name="$(basename "$input" | sed 's/\.[^.]*$//')"
-readonly base_name=`echo $title_name | sed 's/_[^_]*$//'`
-readonly crop_dir="_crops/$base_name"
+readonly base_name=`echo $title_name | sed 's/\w[^_e]*$//'`
+readonly crop_dir="_crops"
 readonly crop_file="$crop_dir/${title_name}.txt"
-readonly originals_dir="_originals/$base_name"
-readonly finals_dir="_finals/$base_name"
-readonly logs_dir="_logs/$base_name"
+readonly originals_dir="_originals"
+readonly finals_dir="_finals"
+readonly logs_dir="_logs"
 readonly media_info=`transcode-video --scan $input`
 
 crop_options=''
@@ -88,24 +88,20 @@ function enableLogging() {
 }
 
 function setupWorkingDirectory() {
-  if [ ! -d "_originals" ]; then
-    mkdir "_originals"
+  if [ ! -d "$originals_dir" ]; then
+    mkdir "$originals_dir"
   fi
 
-  if [ ! -d "_logs" ]; then
-    mkdir "_logs"
+  if [ ! -d "$logs_dir" ]; then
+    mkdir "$logs_dir"
   fi
 
-  if [ ! -d "_finals" ]; then
-    mkdir "_finals"
+  if [ ! -d "$finals_dir" ]; then
+    mkdir "$finals_dir"
   fi
 }
 
 function setCroppingOptions() {
-  if [ ! -d "_crops" ]; then
-    mkdir "_crops"
-  fi
-
   if [ ! -d "$crop_dir" ]; then
   	mkdir "$crop_dir"
   fi
