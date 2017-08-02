@@ -33,17 +33,6 @@ EOF
   exit 0
 }
 
-# OPTIONS
-#
-case $1 in
-	--help)
-		usage
-		;;
-	--version)
-		about
-		;;
-esac
-
 syntax_error() {
 	echo "$program: $1" >&2
 	echo "Try \`$program --help\` for more information." >&2
@@ -88,7 +77,7 @@ function enableLogging() {
   logging_options='--verbose'
 }
 
-function experimental() {
+function enableH265() {
   use_h265='--handbrake-option encoder=x265'
 }
 
@@ -174,12 +163,34 @@ function cleanup() {
   mv "$title_name.mp4" "$finals_dir"
 }
 
+# Process Options
+#
+while [ "$1" ]; do
+  case $1 in
+    --help)
+      usage
+      ;;
+    --version)
+      about
+      ;;
+    --h265)
+      enableH265
+      ;;
+    -*)
+      syntax_error "unrecognized option: $1"
+      ;;
+    *)
+      break
+      ;;
+  esac
+  shift
+done
+
 if [ -f "$input" ]; then
   setCroppingOptions
   setVideoOptions
   setAudioOptions
   # setSubtitleOptions
-  experimental
 
   transcode-video --mp4 $crop_options $video_options $audio_options $subtitle_options $logging_options $use_h265 "$input"
 
