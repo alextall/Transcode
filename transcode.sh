@@ -82,9 +82,14 @@ video_options=''
 audio_options=''
 subtitle_options=''
 logging_options='--quiet'
+use_h265=''
 
 function enableLogging() {
   logging_options='--verbose'
+}
+
+function experimental() {
+  use_h265='--handbrake-option encoder=x265'
 }
 
 function setupWorkingDirectory() {
@@ -174,8 +179,9 @@ if [ -f "$input" ]; then
   setVideoOptions
   setAudioOptions
   # setSubtitleOptions
+  experimental
 
-  transcode-video --mp4 $crop_options $video_options $audio_options $subtitle_options $logging_options "$input"
+  transcode-video --mp4 $crop_options $video_options $audio_options $subtitle_options $logging_options $use_h265 "$input"
 
   cleanup
 else
