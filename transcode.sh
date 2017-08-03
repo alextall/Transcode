@@ -120,7 +120,7 @@ done
 while [ "$1" ]; do
 
   if [ ! -e "$1" ]; then
-    die "file not found: $input"
+    die "file not found: $1"
   fi
 
   input="$1"
