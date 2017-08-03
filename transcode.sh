@@ -168,14 +168,10 @@ while [ "$1" ]; do
   }
 
   function setSubtitleOptions() {
-    srt_file=`ls "$work_dir" | egrep '\.(srt)$'`
+    srt_file="$title_name.srt"
 
     if [ -n "$srt_file" ]; then
       subtitle_options="--add-srt $work_dir/$srt_file"
-    elif [ `echo "$media_info" | egrep "English \(iso639-2: eng\)" | wc -l` -gt 0 ]; then
-      subtitle_options='--add-subtitle language=eng'
-    else
-      subtitle_options=''
     fi
   }
 
@@ -183,6 +179,9 @@ while [ "$1" ]; do
     setupWorkingDirectory
 
     mv "$input" "$originals_dir"
+    if [ -e $srt_file ]; then
+      mv "$srt_file" "$originals_dir"
+    fi
     mv "$title_name.mp4.log" "$logs_dir"
     mv "$title_name.mp4" "$finals_dir"
   }
@@ -191,7 +190,7 @@ while [ "$1" ]; do
     setCroppingOptions
     setVideoOptions
     setAudioOptions
-    # setSubtitleOptions
+    setSubtitleOptions
 
     transcode-video --mp4 $crop_options $video_options $audio_options $subtitle_options $logging_options $use_h265 "$input"
 
