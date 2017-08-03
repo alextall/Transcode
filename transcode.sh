@@ -77,6 +77,7 @@ audio_options=''
 subtitle_options=''
 logging_options='--quiet'
 use_h265=''
+dry_run=''
 
 function enableLogging() {
   logging_options='--verbose'
@@ -84,6 +85,10 @@ function enableLogging() {
 
 function enableH265() {
   use_h265='--handbrake-option encoder=x265'
+}
+
+function dry-run() {
+  dry_run='--dry-run'
 }
 
 # Process Options
@@ -98,6 +103,9 @@ while [ "$1" ]; do
       ;;
     --h265)
       enableH265
+      ;;
+    --dry-run)
+      dry-run
       ;;
     -*)
       syntax_error "unrecognized option: $1"
@@ -192,9 +200,12 @@ while [ "$1" ]; do
     setAudioOptions
     setSubtitleOptions
 
-    transcode-video --mp4 $crop_options $video_options $audio_options $subtitle_options $logging_options $use_h265 "$input"
-
-    cleanup
+    if [ $dry_run ]; then
+      echo transcode-video --mp4 $crop_options $video_options $audio_options $subtitle_options $logging_options $use_h265 "$input"
+    else
+      transcode-video --mp4 $crop_options $video_options $audio_options $subtitle_options $logging_options $use_h265 "$input"
+      cleanup
+    fi
   else
     echo "There was a problem with $input and it could not be transcoded."
   fi
