@@ -178,7 +178,7 @@ while [ "$1" ]; do
   function setSubtitleOptions() {
     srt_file="$title_name.srt"
 
-    if [ -n "$srt_file" ]; then
+    if [ -e "$srt_file" ]; then
       subtitle_options="--add-srt $work_dir/$srt_file"
     fi
   }
