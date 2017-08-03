@@ -19,16 +19,20 @@ usage(){
 	cat <<EOF
 Transcode video files. Works best with Blu-ray or DVD rips.
 
-Transcode.sh automatically determines target video bitrate, number of audio tracks, etc. WITHOUT ANY command line options.
+Transcode.sh automatically determines target video bitrate, number of audio
+tracks, etc. WITHOUT ANY command line options.
 
-It is recommended to use Hazel to provide automated queue management and trigger transcode.sh.
+It is recommended to use Hazel to provide automated queue management and 
+trigger transcode.sh, but you can also provide multiple files as arguments and
+they will be transcoded one at a time.
 
-Usage: $program [FILE]
+Usage: $program [FILES...]
 
   --help          display basic options and exit
   --version       display program version and exit
 
-Requires "video_transcoding", "HandBrakeCLI", "mp4track", "mplayer" and "mkvpropedit".
+Requires "video_transcoding" from https://github.com/donmelton/video_transcoding
+Requires "HandBrakeCLI" from https://handbrake.fr
 EOF
   exit 0
 }
