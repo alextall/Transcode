@@ -94,7 +94,7 @@ function dry-run() {
 # Process Options
 #
 while [ "$1" ]; do
-  case $1 in
+  case "$1" in
     --help)
       usage
       ;;
