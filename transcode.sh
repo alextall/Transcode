@@ -9,7 +9,7 @@ readonly program="$(basename "$0")"
 
 about() {
 	cat <<EOF
-$program 1.5 of August 2, 2017
+$program 1.5.1 of August 2, 2017
 Copyright (c) 2017 Alex Du Bois
 EOF
 	exit 0
