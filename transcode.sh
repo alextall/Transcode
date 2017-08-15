@@ -62,7 +62,7 @@ test_handbrake() {
     read -n 1 -p "[y/n]:" handbrakeinstallinput
     if [ "$handbrakeinstallinput" = "y" ]; then
       install_handbrake
-    elif
+    else
       die "Please install handbrake and try again."
     fi
   fi
@@ -74,7 +74,7 @@ test_video_transcoding() {
     read -n 1 -p "[y/n]:" video_transcodinginstallinput
     if [ "$video_transcodinginstallinput" = "y" ]; then
       install_video_transcoding
-    elif
+    else
       die "Please install video_transcoding and try again."
     fi
   fi
