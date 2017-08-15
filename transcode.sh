@@ -48,14 +48,41 @@ die() {
 	exit ${2:-1}
 }
 
-test_dependencies() {
-  if [ `brew leaves | grep handbrake | wc -l` -lt 1 ]; then
-    die "Handbrake is not installed. Please install and try again."
-  fi
+install_handbrake() {
+  brew update && brew install handbrake
+}
 
-  if [ `gem list --quiet video_transcoding | grep video_transcoding | wc -l` -lt 1 ]; then
-    die "video_transcoding is not installed. Please install and try again."
+install_video_transcoding() {
+  gem install video_transcoding
+}
+
+test_handbrake() {
+  if [ `brew leaves | grep handbrake | wc -l` -lt 1 ]; then
+    echo "Handbrake is not installed. Do you want to install it?"
+    read -n 1 -p "[y/n]:" handbrakeinstallinput
+    if [ "$handbrakeinstallinput" = "y" ]; then
+      install_handbrake
+    elif
+      die "Please install handbrake and try again."
+    fi
   fi
+}
+
+test_video_transcoding() {
+  if [ `gem list --quiet video_transcoding | grep video_transcoding | wc -l` -lt 1 ]; then
+    echo "video_transcoding is not install. Do you want to install it?"
+    read -n 1 -p "[y/n]:" video_transcodinginstallinput
+    if [ "$video_transcodinginstallinput" = "y" ]; then
+      install_video_transcoding
+    elif
+      die "Please install video_transcoding and try again."
+    fi
+  fi
+}
+
+test_dependencies() {
+  test_handbrake
+  test_video_transcoding
 }
 
 test_dependencies
