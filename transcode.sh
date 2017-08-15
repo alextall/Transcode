@@ -59,7 +59,7 @@ install_video_transcoding() {
 test_handbrake() {
   if [ `brew leaves | grep handbrake | wc -l` -lt 1 ]; then
     echo "Handbrake is not installed. Do you want to install it?"
-    read -n 1 -p "[y/n]:" handbrakeinstallinput
+    read -p "[y/n]:" handbrakeinstallinput
     if [ "$handbrakeinstallinput" = "y" ]; then
       install_handbrake
     else
@@ -71,7 +71,7 @@ test_handbrake() {
 test_video_transcoding() {
   if [ `gem list --quiet video_transcoding | grep video_transcoding | wc -l` -lt 1 ]; then
     echo "video_transcoding is not install. Do you want to install it?"
-    read -n 1 -p "[y/n]:" video_transcodinginstallinput
+    read -p "[y/n]:" video_transcodinginstallinput
     if [ "$video_transcodinginstallinput" = "y" ]; then
       install_video_transcoding
     else
