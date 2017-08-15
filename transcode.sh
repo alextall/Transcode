@@ -48,7 +48,14 @@ die() {
 	exit ${2:-1}
 }
 
+test_homebrew() {
+  if [ `which brew | wc -l` -lt 1 ]; then
+    die "Homebrew is not installed. Please install Handbrake manually."
+  fi
+}
+
 install_handbrake() {
+  test_homebrew
   brew update && brew install handbrake
 }
 
