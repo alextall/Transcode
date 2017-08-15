@@ -85,11 +85,11 @@ test_dependencies() {
   test_video_transcoding
 }
 
-test_dependencies
-
 if [ ! "$1" ]; then
 	syntax_error 'too few arguments'
 fi
+
+test_dependencies
 
 # Set global variables
 #
