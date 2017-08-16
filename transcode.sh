@@ -48,9 +48,19 @@ die() {
 	exit ${2:-1}
 }
 
+install_homebrew() {
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+}
+
 test_homebrew() {
   if [ `which brew | wc -l` -lt 1 ]; then
-    die "Homebrew is not installed. Please install Handbrake manually."
+    echo "Homebrew is not installed. Do you want to install it?"
+    read -p "[y/n]: " homebrew_install_input
+    if [ "$homebrew_install_input" = "y" ]; then
+      install_homebrew
+    else
+      die "Please install Handbrake manually and try again."
+    fi
   fi
 }
 
