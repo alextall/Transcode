@@ -23,7 +23,7 @@ Transcode.sh automatically determines target video bitrate, number of audio
 tracks, etc. WITHOUT ANY command line options.
 
 It is recommended to use Hazel to provide automated queue management and 
-trigger transcode.sh, but you can also provide multiple files as arguments and
+trigger transcode.sh, but you can also provide multiple files or folders as arguments and
 they will be transcoded one at a time.
 
 Usage: $program [FILES...]
