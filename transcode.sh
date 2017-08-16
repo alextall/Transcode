@@ -161,8 +161,7 @@ fi
 
 test_dependencies
 
-while [ "$1" ]; do
-
+function transcode() {
   if [ ! -e "$1" ]; then
     die "file not found: $1"
   fi
@@ -253,6 +252,10 @@ while [ "$1" ]; do
   else
     echo "There was a problem with $input and it could not be transcoded."
   fi
+}
+
+while [ "$1" ]; do
+  transcode $1
 
   shift
 done
