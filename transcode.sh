@@ -9,7 +9,7 @@ readonly program="$(basename "$0")"
 
 about() {
 	cat <<EOF
-$program 1.5.1 of August 2, 2017
+$program 1.6 of August 2, 2017
 Copyright (c) 2017 Alex Du Bois
 EOF
 	exit 0
@@ -23,7 +23,7 @@ Transcode.sh automatically determines target video bitrate, number of audio
 tracks, etc. WITHOUT ANY command line options.
 
 It is recommended to use Hazel to provide automated queue management and 
-trigger transcode.sh, but you can also provide multiple files as arguments and
+trigger transcode.sh, but you can also provide multiple files or folders as arguments and
 they will be transcoded one at a time.
 
 Usage: $program [FILES...]
@@ -102,12 +102,6 @@ test_dependencies() {
   test_video_transcoding
 }
 
-if [ ! "$1" ]; then
-	syntax_error 'too few arguments'
-fi
-
-test_dependencies
-
 # Set global variables
 #
 PATH="/usr/local/bin:$PATH"
@@ -139,10 +133,10 @@ function dry-run() {
 #
 while [ "$1" ]; do
   case "$1" in
-    --help)
+    --help | -h)
       usage
       ;;
-    --version)
+    --version | -v)
       about
       ;;
     --h265)
@@ -161,8 +155,13 @@ while [ "$1" ]; do
   shift
 done
 
-while [ "$1" ]; do
+if [ ! "$1" ]; then
+	syntax_error 'too few arguments'
+fi
 
+test_dependencies
+
+function transcode() {
   if [ ! -e "$1" ]; then
     die "file not found: $1"
   fi
@@ -252,6 +251,17 @@ while [ "$1" ]; do
     fi
   else
     echo "There was a problem with $input and it could not be transcoded."
+  fi
+}
+
+while [ "$1" ]; do
+
+  if [ -d $1 ]; then
+    for file in $( ls | egrep -e \.[^.]*mkv ); do
+      transcode $file
+    done
+  else
+    transcode $1
   fi
 
   shift
