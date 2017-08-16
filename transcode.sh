@@ -102,12 +102,6 @@ test_dependencies() {
   test_video_transcoding
 }
 
-if [ ! "$1" ]; then
-	syntax_error 'too few arguments'
-fi
-
-test_dependencies
-
 # Set global variables
 #
 PATH="/usr/local/bin:$PATH"
@@ -139,10 +133,10 @@ function dry-run() {
 #
 while [ "$1" ]; do
   case "$1" in
-    --help)
+    --help | -h)
       usage
       ;;
-    --version)
+    --version | -v)
       about
       ;;
     --h265)
@@ -160,6 +154,12 @@ while [ "$1" ]; do
   esac
   shift
 done
+
+if [ ! "$1" ]; then
+	syntax_error 'too few arguments'
+fi
+
+test_dependencies
 
 while [ "$1" ]; do
 
