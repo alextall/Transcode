@@ -12,6 +12,8 @@ Video transcoding takes a long time, especially if you are transcoding several f
 
 ## Dependencies
 
+`transcode.sh` will offer to install required dependencies if they are not detected. You can also install them ahead of time.
+
 * Install [video_transcoding](http://github.com/donmelton/video_transcoding).
 * Install [HandbrakeCLI](https://handbrake.fr).
 * Optional: Install [Hazel](https://www.noodlesoft.com) according to Noodlesoft's instructions.
