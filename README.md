@@ -22,7 +22,7 @@ Pick a work folder and place your files to transcode inside. `transcode.sh` will
 
 ## Use
 
-Simply run `transcode.sh [File...]` from the Terminal. You may add 1 or more files separated by spaces.
+Simply run `transcode.sh [File...]` from the Terminal. You may add 1 or more files separated by spaces. You may also add 1 or more directories, and any Matroska files will be transcoded.
 
 `transcode.sh` will accept just about any video you can find, but I recommend using [MakeMKV](http://makemkv.com) to rip full quality .mkv files of your DVDs and Blu-rays. Place these files in the work folder, and Hazel will automatically trigger transcode-batch.sh to do its work.
 
