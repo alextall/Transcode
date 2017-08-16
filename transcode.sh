@@ -257,7 +257,7 @@ function transcode() {
 while [ "$1" ]; do
 
   if [ -d $1 ]; then
-    for file in $( ls ); do
+    for file in $( ls | egrep -e \.[^.]*mkv ); do
       transcode $file
     done
   else
