@@ -255,7 +255,14 @@ function transcode() {
 }
 
 while [ "$1" ]; do
-  transcode $1
+
+  if [ -d $1 ]; then
+    for file in $( ls ); do
+      transcode $file
+    done
+  else
+    transcode $1
+  fi
 
   shift
 done
