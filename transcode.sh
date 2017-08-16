@@ -48,21 +48,65 @@ die() {
 	exit ${2:-1}
 }
 
-test_dependencies() {
-  if [ `brew leaves | grep handbrake | wc -l` -lt 1 ]; then
-    die "Handbrake is not installed. Please install and try again."
-  fi
+install_homebrew() {
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+}
 
-  if [ `gem list --quiet video_transcoding | grep video_transcoding | wc -l` -lt 1 ]; then
-    die "video_transcoding is not installed. Please install and try again."
+test_homebrew() {
+  if [ `which brew | wc -l` -lt 1 ]; then
+    echo "Homebrew is not installed. Do you want to install it?"
+    read -p "[y/n]: " homebrew_install_input
+    if [ "$homebrew_install_input" = "y" ]; then
+      install_homebrew
+    else
+      die "Please install Handbrake manually and try again."
+    fi
   fi
 }
 
-test_dependencies
+install_handbrake() {
+  test_homebrew
+  brew update && brew install handbrake
+}
+
+install_video_transcoding() {
+  gem install video_transcoding
+}
+
+test_handbrake() {
+  if [ `brew leaves | grep handbrake | wc -l` -lt 1 ]; then
+    echo "Handbrake is not installed. Do you want to install it?"
+    read -p "[y/n]:" handbrakeinstallinput
+    if [ "$handbrakeinstallinput" = "y" ]; then
+      install_handbrake
+    else
+      die "Please install handbrake and try again."
+    fi
+  fi
+}
+
+test_video_transcoding() {
+  if [ `gem list --quiet video_transcoding | grep video_transcoding | wc -l` -lt 1 ]; then
+    echo "video_transcoding is not install. Do you want to install it?"
+    read -p "[y/n]:" video_transcodinginstallinput
+    if [ "$video_transcodinginstallinput" = "y" ]; then
+      install_video_transcoding
+    else
+      die "Please install video_transcoding and try again."
+    fi
+  fi
+}
+
+test_dependencies() {
+  test_handbrake
+  test_video_transcoding
+}
 
 if [ ! "$1" ]; then
 	syntax_error 'too few arguments'
 fi
+
+test_dependencies
 
 # Set global variables
 #
