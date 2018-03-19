@@ -16,6 +16,7 @@ Video transcoding takes a long time, especially if you are transcoding several f
 
 * Install [video_transcoding](http://github.com/donmelton/video_transcoding).
 * Install [HandbrakeCLI](https://handbrake.fr).
+* Install [ffmpeg](http://http://ffmpeg.org)
 * Optional: Install [Hazel](https://www.noodlesoft.com) according to Noodlesoft's instructions.
 
 ## Setup
