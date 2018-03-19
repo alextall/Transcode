@@ -7,7 +7,7 @@ Video transcoding takes a long time, especially if you are transcoding several f
 ## Install
 
 `transcode.sh` may be installed using Homebrew.
-1. Run `brew tap alextall/homebrew-tools` to tap my cask.
+1. Run `brew tap alextall/tools` to tap my cask.
 2. Then run `brew install transcode`.
 
 ## Dependencies
@@ -16,6 +16,7 @@ Video transcoding takes a long time, especially if you are transcoding several f
 
 * Install [video_transcoding](http://github.com/donmelton/video_transcoding).
 * Install [HandbrakeCLI](https://handbrake.fr).
+* Install [ffmpeg](http://http://ffmpeg.org)
 * Optional: Install [Hazel](https://www.noodlesoft.com) according to Noodlesoft's instructions.
 
 ## Setup
@@ -26,7 +27,7 @@ Pick a work folder and place your files to transcode inside. `transcode.sh` will
 
 Simply run `transcode.sh [File...]` from the Terminal. You may add 1 or more files separated by spaces. You may also add 1 or more directories, and any Matroska files will be transcoded.
 
-`transcode.sh` will accept just about any video you can find, but I recommend using [MakeMKV](http://makemkv.com) to rip full quality .mkv files of your DVDs and Blu-rays. Place these files in the work folder, and Hazel will automatically trigger transcode-batch.sh to do its work.
+`transcode.sh` will accept just about any video you can find, but I recommend using [MakeMKV](http://makemkv.com) to rip full quality .mkv files of your DVDs and Blu-rays. Place these files in the work folder, and Hazel will automatically trigger transcode.sh to do its work.
 
 ## Using Hazel
 
