@@ -223,6 +223,8 @@ function transcode() {
 
     if [ -e "$srt_file" ]; then
       subtitle_options="--add-srt $work_dir/$srt_file"
+    else
+      subtitle_options="--burn-subtitle scan"
     fi
   }
 
