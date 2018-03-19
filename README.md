@@ -7,7 +7,7 @@ Video transcoding takes a long time, especially if you are transcoding several f
 ## Install
 
 `transcode.sh` may be installed using Homebrew.
-1. Run `brew tap alextall/homebrew-tools` to tap my cask.
+1. Run `brew tap alextall/tools` to tap my cask.
 2. Then run `brew install transcode`.
 
 ## Dependencies
