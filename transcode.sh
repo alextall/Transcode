@@ -59,7 +59,7 @@ test_homebrew() {
     if [ "$homebrew_install_input" = "y" ]; then
       install_homebrew
     else
-      die "Please install Handbrake manually and try again."
+      die "Please install Homebrew manually and try again."
     fi
   fi
 }
