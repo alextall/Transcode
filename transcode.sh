@@ -9,8 +9,8 @@ readonly program="$(basename "$0")"
 
 about() {
 	cat <<EOF
-$program 1.6 of August 2, 2017
-Copyright (c) 2017 Alex Du Bois
+$program 1.6.1 of November 11, 2018
+Copyright (c) 2018 Alex Du Bois
 EOF
 	exit 0
 }
@@ -48,6 +48,8 @@ die() {
 	exit ${2:-1}
 }
 
+# Test dependencies
+#
 install_homebrew() {
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 }
@@ -69,10 +71,6 @@ install_handbrake() {
   brew update && brew install handbrake
 }
 
-install_video_transcoding() {
-  gem install video_transcoding
-}
-
 test_handbrake() {
   if [ `brew leaves | grep handbrake | wc -l` -lt 1 ]; then
     echo "Handbrake is not installed. Do you want to install it?"
@@ -83,6 +81,10 @@ test_handbrake() {
       die "Please install Handbrake and try again."
     fi
   fi
+}
+
+install_video_transcoding() {
+  gem install video_transcoding
 }
 
 test_video_transcoding() {
@@ -117,6 +119,8 @@ logging_options='--quiet'
 use_h265=''
 dry_run=''
 
+# Option declarations
+#
 function enableLogging() {
   logging_options='--verbose'
 }
