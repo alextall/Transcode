@@ -23,7 +23,7 @@ Video transcoding takes a long time, especially if you are transcoding several f
 
 Pick a work folder and place your files to transcode inside. `transcode.sh` will create several folders to organize the generated files. These will all be named with a `_` prefix.
 
-## Use
+## Terminal Use
 
 Simply run `transcode.sh [File...]` from the Terminal. You may add 1 or more files separated by spaces. You may also add 1 or more directories, and any Matroska files will be transcoded.
 

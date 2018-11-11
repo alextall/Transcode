@@ -61,7 +61,7 @@ test_homebrew() {
     if [ "$homebrew_install_input" = "y" ]; then
       install_homebrew
     else
-      die "Please install homebrew manually and try again."
+      die "Please install Homebrew manually and try again."
     fi
   fi
 }
@@ -74,11 +74,11 @@ install_handbrake() {
 test_handbrake() {
   if [ `brew leaves | grep handbrake | wc -l` -lt 1 ]; then
     echo "Handbrake is not installed. Do you want to install it?"
-    read -p "[y/n]:" handbrakeinstallinput
-    if [ "$handbrakeinstallinput" = "y" ]; then
+    read -p "[y/n]:" handbrake_install_input
+    if [ "$handbrake_install_input" = "y" ]; then
       install_handbrake
     else
-      die "Please install handbrake and try again."
+      die "Please install Handbrake and try again."
     fi
   fi
 }
