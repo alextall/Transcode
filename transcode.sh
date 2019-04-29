@@ -5,11 +5,11 @@
 # portable video files.
 #
 
-readonly program="$(basename "$0")"
+readonly program="$(basename "${0}")"
 
 about() {
 	cat <<EOF
-$program 1.6.1 of November 11, 2018
+${program} 1.6.1 of November 11, 2018
 Copyright (c) 2018 Alex Du Bois
 EOF
 	exit 0
@@ -26,7 +26,7 @@ It is recommended to use Hazel to provide automated queue management and
 trigger transcode.sh, but you can also provide multiple files or folders as arguments and
 they will be transcoded one at a time.
 
-Usage: $program [FILES...]
+Usage: ${program} [FILES...]
 
   --help          display basic options and exit
   --version       display program version and exit
@@ -38,13 +38,13 @@ EOF
 }
 
 syntax_error() {
-	echo "$program: $1" >&2
-	echo "Try \`$program --help\` for more information." >&2
+	echo "${program}: ${1}" >&2
+	echo "Try \`${program} --help\` for more information." >&2
 	exit 1
 }
 
 die() {
-	echo "$program: $1" >&2
+	echo "${program}: ${1}" >&2
 	exit ${2:-1}
 }
 
@@ -55,13 +55,13 @@ install_homebrew() {
 }
 
 test_homebrew() {
-  if [ `which brew | wc -l` -lt 1 ]; then
+  if [ $(which brew | wc -l) -lt 1 ]; then
     echo "Homebrew is not installed. Do you want to install it?"
     read -p "[y/n]: " homebrew_install_input
-    if [ "$homebrew_install_input" = "y" ]; then
+    if [ "${homebrew_install_input}" = "y" ]; then
       install_homebrew
     else
-      die "Please install homebrew manually and try again."
+      die "Please install Homebrew manually and try again."
     fi
   fi
 }
@@ -72,13 +72,13 @@ install_handbrake() {
 }
 
 test_handbrake() {
-  if [ `brew leaves | grep handbrake | wc -l` -lt 1 ]; then
+  if [ $(brew leaves | grep handbrake | wc -l) -lt 1 ]; then
     echo "Handbrake is not installed. Do you want to install it?"
-    read -p "[y/n]:" handbrakeinstallinput
-    if [ "$handbrakeinstallinput" = "y" ]; then
+    read -p "[y/n]: " handbrake_install_input
+    if [ "${handbrake_install_input}" = "y" ]; then
       install_handbrake
     else
-      die "Please install handbrake and try again."
+      die "Please install Handbrake and try again."
     fi
   fi
 }
@@ -88,10 +88,10 @@ install_video_transcoding() {
 }
 
 test_video_transcoding() {
-  if [ `gem list --quiet video_transcoding | grep video_transcoding | wc -l` -lt 1 ]; then
-    echo "video_transcoding is not install. Do you want to install it?"
-    read -p "[y/n]:" video_transcodinginstallinput
-    if [ "$video_transcodinginstallinput" = "y" ]; then
+  if [ $(gem list --quiet video_transcoding | grep video_transcoding | wc -l) -lt 1 ]; then
+    echo "video_transcoding is not installed. Do you want to install it?"
+    read -p "[y/n]: " video_transcoding_install_input
+    if [ "${video_transcoding_install_input}" = "y" ]; then
       install_video_transcoding
     else
       die "Please install video_transcoding and try again."
@@ -135,8 +135,8 @@ function dry-run() {
 
 # Process Options
 #
-while [ "$1" ]; do
-  case "$1" in
+while [ "${1}" ]; do
+  case "${1}" in
     --help | -h)
       usage
       ;;
@@ -150,7 +150,7 @@ while [ "$1" ]; do
       dry-run
       ;;
     -*)
-      syntax_error "unrecognized option: $1"
+      syntax_error "unrecognized option: ${1}"
       ;;
     *)
       break
@@ -159,53 +159,53 @@ while [ "$1" ]; do
   shift
 done
 
-if [ ! "$1" ]; then
+if [ ! "${1}" ]; then
 	syntax_error 'too few arguments'
 fi
 
 test_dependencies
 
 function transcode() {
-  if [ ! -e "$1" ]; then
-    die "file not found: $1"
+  if [ ! -e "${1}" ]; then
+    die "file not found: ${1}"
   fi
 
-  input="$1"
-  work_dir=`dirname "$input"`
-  title_name="$(basename "$input" | sed 's/\.[^.]*$//')"
-  crop_file="$crop_dir/${title_name}.txt"
-  media_info=`transcode-video --scan $input`
+  readonly input="${1}"
+  readonly work_dir=$(dirname "${input}")
+  readonly title_name="$(basename "${input}" | sed 's/\.[^.]*$//')"
+  readonly crop_file="${crop_dir}/${title_name}.txt"
+  readonly media_info=$(transcode-video --scan "${input}")
 
   function setupWorkingDirectory() {
-    if [ ! -d "$originals_dir" ]; then
-      mkdir "$originals_dir"
+    if [ ! -d "${originals_dir}" ]; then
+      mkdir "${originals_dir}"
     fi
 
-    if [ ! -d "$logs_dir" ]; then
-      mkdir "$logs_dir"
+    if [ ! -d "${logs_dir}" ]; then
+      mkdir "${logs_dir}"
     fi
 
-    if [ ! -d "$finals_dir" ]; then
-      mkdir "$finals_dir"
+    if [ ! -d "${finals_dir}" ]; then
+      mkdir "${finals_dir}"
     fi
   }
 
   function setCroppingOptions() {
-    if [ ! -d "$crop_dir" ]; then
-      mkdir "$crop_dir"
+    if [ ! -d "${crop_dir}" ]; then
+      mkdir "${crop_dir}"
     fi
 
-    detect-crop "$input" &> "$crop_file"
+    detect-crop "${input}" &> "${crop_file}"
 
-    if [[ -f "$crop_file" ]] && [[ ! `grep differ $crop_file` ]]; then
-      crop_options=`grep transcode-video $crop_file | egrep -o -e "--crop "[0-9]+:[0-9]+:[0-9]+:[0-9]+`
+    if [[ -f "${crop_file}" ]] && [[ ! $(grep differ ${crop_file}) ]]; then
+      crop_options=$(grep transcode-video ${crop_file} | egrep -o -e "--crop "[0-9]+:[0-9]+:[0-9]+:[0-9]+)
     else
       crop_options=''
     fi
   }
 
   function setVideoOptions() {
-    if [ `echo "$media_info" | egrep "x480" | wc -l` -gt 0 ]; then
+    if [ $(echo "${media_info}" | egrep "x480" | wc -l) -gt 0 ]; then
       video_options="--force-rate 23.976 --filter detelecine"
     else
       video_options="--max-width 1920 --max-height 1080"
@@ -213,20 +213,20 @@ function transcode() {
   }
 
   function setAudioOptions() {
-    if [ `echo "$media_info" | egrep "(\d\.\d ch)" | wc -l` -gt 1 ]; then
+    if [ $(echo "${media_info}" | egrep "(\d\.\d ch)" | wc -l) -gt 1 ]; then
       audio_options="--main-audio eng"
     else
       audio_options="--add-audio all"
     fi
 
-    audio_options="$audio_options --audio-width all=double"
+    audio_options="${audio_options} --audio-width all=double"
   }
 
   function setSubtitleOptions() {
-    srt_file="$title_name.srt"
+    srt_file="${title_name}.srt"
 
-    if [ -e "$srt_file" ]; then
-      subtitle_options="--add-srt $work_dir/$srt_file"
+    if [ -e "${srt_file}" ]; then
+      subtitle_options="--add-srt ${work_dir}/${srt_file}"
     else
       subtitle_options="--burn-subtitle scan"
     fi
@@ -235,39 +235,39 @@ function transcode() {
   function cleanup() {
     setupWorkingDirectory
 
-    mv "$input" "$originals_dir"
-    if [ -e $srt_file ]; then
-      mv "$srt_file" "$originals_dir"
+    mv "${input}" "${originals_dir}"
+    if [ -e ${srt_file} ]; then
+      mv "${srt_file}" "${originals_dir}"
     fi
-    mv "$title_name.mp4.log" "$logs_dir"
-    mv "$title_name.mp4" "$finals_dir"
+    mv "${title_name}.mp4.log" "${logs_dir}"
+    mv "${title_name}.mp4" "${finals_dir}"
   }
 
-  if [ -f "$input" ]; then
+  if [ -f "${input}" ]; then
     setCroppingOptions
     setVideoOptions
     setAudioOptions
     setSubtitleOptions
 
-    if [ $dry_run ]; then
-      echo transcode-video --mp4 $crop_options $video_options $audio_options $subtitle_options $logging_options $use_h265 "$input"
+    if [ ${dry_run} ]; then
+      echo transcode-video --mp4 ${crop_options} ${video_options} ${audio_options} ${subtitle_options} ${logging_options} ${use_h265} "${input}"
     else
-      transcode-video --mp4 $crop_options $video_options $audio_options $subtitle_options $logging_options $use_h265 "$input"
+      transcode-video --mp4 ${crop_options} ${video_options} ${audio_options} ${subtitle_options} ${logging_options} ${use_h265} "${input}"
       cleanup
     fi
   else
-    echo "There was a problem with $input and it could not be transcoded."
+    echo "There was a problem with ${input} and it could not be transcoded."
   fi
 }
 
-while [ "$1" ]; do
+while [ "${1}" ]; do
 
-  if [ -d $1 ]; then
+  if [ -d "${1}" ]; then
     for file in $( ls | egrep -e \.[^.]*mkv ); do
-      transcode $file
+      transcode "${file}"
     done
   else
-    transcode $1
+    transcode "${1}"
   fi
 
   shift
